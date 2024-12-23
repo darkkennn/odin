@@ -21,16 +21,19 @@ function loadForm(){
     const myTextInput = document.createElement('input');
     myTextInput.type = 'text';
     myTextInput.name = 'First Name';
+    myTextInput.placeholder = 'Enter your first name';
     myForm.appendChild(myTextInput);
 
    const myTextInputTwo = document.createElement('input');
     myTextInputTwo.type = 'text';
     myTextInputTwo.name = 'Last Name';
+    myTextInputTwo.placeholder = 'Enter your last name';
     myForm.appendChild(myTextInputTwo);
 
     const contactInput = document.createElement('input');
     contactInput.type = 'number';
     contactInput.name = 'Contact Number';
+    contactInput.placeholder = 'Enter your number';
     myForm.appendChild(contactInput);
 
     currentContent.append(myForm);
@@ -52,6 +55,7 @@ function loadReserve(){
 function guestTimings(){
 
     const days = [
+        'Please Select',
         'Monday',
         'Tuesday',
         'Wednesday',
@@ -67,10 +71,10 @@ function guestTimings(){
     guestDays.appendChild(label);
     const daysDropDown = document.createElement('select');
     guestDays.appendChild(daysDropDown);
-    for(let i = 0; i < 7; i++){
+    for(let i = 0; i <= 7; i++){
         const options = document.createElement('option');
         options.setAttribute('days', 'i');
-        options.textContent = days;
+        options.textContent = days[i];
         daysDropDown.appendChild(options);
     }
     currentContent.append(guestDays);
@@ -81,22 +85,34 @@ function guestTimings(){
     guestList.appendChild(label2);
     const dropDown = document.createElement('select');
     guestList.appendChild(dropDown);
-    if(daysDropDown.value == 'Monday' || 'Tuesday' || 'Wednesday' || 'Thursday'){
-        for(let i = 5; i <= 10; i++) {
-            const option = document.createElement('option');
-            option.setAttribute('value', 'i');
-            option.textContent = i;        
-            dropDown.appendChild(option);
-        }
-    }
-    else {
-        for(let i = 5; i<=12; i++){
-            const option = document.createElement('option');
-            option.setAttribute('value', 'i');
-            option.textContent = i;        
-            dropDown.appendChild(option);
-        }
-    }
+    daysDropDown.addEventListener('change', updateDays);
     currentContent.append(guestList);
+
+    function updateDays(e){
+        daysDropDown.value == this.value;
+
+        while(dropDown.firstChild){
+            dropDown.removeChild(dropDown.firstChild);
+        }
+        
+        if(daysDropDown.value == 'Monday' || daysDropDown.value == 'Tuesday' || daysDropDown.value == 'Wednesday' || daysDropDown.value == 'Thursday'){
+            for(let i = 5; i <= 10; i++) {
+                const option = document.createElement('option');
+                option.setAttribute('value', 'i');
+                option.textContent = i;        
+                dropDown.appendChild(option);
+            }
+        } else if (daysDropDown.value == 'Friday' || daysDropDown.value == 'Saturday' || daysDropDown.value == 'Sunday') {
+            for(let i = 5; i<=12; i++){
+                const option = document.createElement('option');
+                option.setAttribute('value', 'i');
+                option.textContent = i;        
+                dropDown.appendChild(option);
+            }
+        } else{
+            daysDropDown.value == null;
+        }
+    }
+
     loadDates();
 }
